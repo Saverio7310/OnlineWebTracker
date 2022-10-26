@@ -1,0 +1,20 @@
+fixation 80-400 ms
+
+saccade 150 ms max
+
+
+per calcolare qunato tempo passa devo fare time = timestamp e dopo time + 'tempo minimo di fix'
+
+
+
+nel codice python
+distance
+49.0
+133.25059729756995
+media calcolata: 81.29
+time
+47.0
+89.09106155191596
+
+
+WebGazer indica come punto (0, 0) l'angolo in alto a sinistra

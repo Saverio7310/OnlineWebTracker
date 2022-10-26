@@ -1,0 +1,30 @@
+.pauseButton {
+    position: absolute;
+    top: 850px;
+    left: 750px;
+    font-size: large;
+    width: 100px;
+}
+
+.resumeButton {
+    position: absolute;
+    top: 850px;
+    left: 1200px;
+    font-size: large;
+    width: 100px;
+}
+
+.startButton {
+    position: absolute;
+    top: 600px;
+    left: 975px;
+    font-size: large;
+    width: 100px;
+}
+
+.image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 0
+}
