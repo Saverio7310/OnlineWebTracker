@@ -180,16 +180,19 @@ with open("csv\\download.csv") as file:
     # Create a dataset
 
     list_heat = list()
+    list_indx = list()
     for ind, coord in enumerate(list_x):
-        list_heat.append(list(list_x[ind], list_y[ind]))
+        list_heat.append([list_x[ind], list_y[ind]])
+        list_indx.append(ind)
 
 
-    df = pd.DataFrame()
+    df = pd.DataFrame(list_heat, columns=['X', 'Y'], index=list_indx)
+    #df.head()
 
     # Default heatmap
     p1 = sns.heatmap(df)
 
-
+    #funziona ma è da migliorare
 
     
     '''
