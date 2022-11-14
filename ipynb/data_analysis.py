@@ -3,10 +3,24 @@ import math
 import turtle
 import pandas as pd
 import seaborn as sns
+import shutil as sh
+from pathlib import Path as ph
 from matplotlib.patches import Circle
 from matplotlib.pyplot import figure, plot, scatter, show, text, subplots, imread, hist2d
 
-with open("csv/download.csv") as file:
+#this part is used to move the download file from the browser into the csv folder of the project 
+#from the download folder of the PC. The library used is the best for this task because it 
+#automatically create the specific path based on the system used (Windows, MacOs), so less 
+#job to do
+data_source = ph.home() / 'Downloads' / 'GazeData.csv'
+data_destination = ph.home() / 'Desktop' / 'WebGazer' / 'csv'
+
+sh.move(data_source, data_destination, copy_function=sh.copy)
+
+
+#from now, the file with the data is open and it is possible to work with it. I used the 'with open'
+#because it closes by default the file. That's helpful in case you forget to call the function .close()
+with open("csv/GazeData.csv") as file:
 
     #read the csv file
     reader_obj = csv.reader(file) 
@@ -22,10 +36,10 @@ with open("csv/download.csv") as file:
 
     #create a list which contains the same data as before but casted to float type in order to
     #use them to create the fixation points in the chart. This list contains tuples made of x coords, 
-    # y coords and timestamp. You have to subtract 1200 to the 
+    # y coords and timestamp. 
     list_circles = list()
     for [a,b,c] in list_data:
-        list_circles.append([float(a), (1200 - float(b)), float(c)])
+        list_circles.append([float(a), (float(b)), float(c)])
 
 
     #it's used to create a list that contains the distance of each pair of points and the time 
@@ -198,7 +212,7 @@ with open("csv/download.csv") as file:
     ak.imshow(img)
     list_y_vecchi = list()
     for y in list_y:
-        list_y_vecchi.append(1200 - y)
+        list_y_vecchi.append(y)
     hist2d(list_x, list_y_vecchi, bins=30, range=[[0, 2000], [0, 1200]], cmap="Greys")    #icefire, Greys
     #p1 = sns.heatmap(df)
     #sns.jointplot(x=list_x, y=list_y, kind="kde")
