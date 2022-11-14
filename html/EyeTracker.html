@@ -2,11 +2,11 @@
 <html>
 
     <head>
-        <meta charset="utf-8">  <!--serve per unicode--> <!-- -->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--serve per far scalare le dimensini del sito in base al dispositivo usato. Lo 'scale' serve per dire che non c'è zoom sulla pagina-->
+        <meta charset="utf-8">  <!-- -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <title>Eye Tracking</title>
-        <!-- script da aggiungere al file HTML, i primi due importano la libreria
-        webgazer e il file JavaScript, il secondo importa il file CSS-->
+        <!-- scripts to add to the HTML file. The first two import webgazer library and
+            JavaScript file, the last import CSS file-->
         <script src="https://webgazer.cs.brown.edu/webgazer.js?"> </script>
         <script src="..\\js\\webgazer.js"> </script>
         <link rel="stylesheet" href="..\\css\\styles.css"> </link>
@@ -14,12 +14,10 @@
 
     <body>
         
-        <img class="image"
-        src="..\\img\\Griglia.png" 
-        width="1810" 
-        height=auto> <!-- prima era 1020 e sembrava giusta quando messa a tutto schermo -->
-        
-
+        <!-- these are the objects in the page -->
+        <div class="imgbox">
+            <img class="center-fit" src="..\\img\\Griglia.png">
+        </div>
         <button class="pauseButton" onclick="pause()"> Pause </button>
         <button class="resumeButton" onclick="resume()"> Resume </button>
         <button class="startButton" onclick="start()"> Start/Stop Record </button>

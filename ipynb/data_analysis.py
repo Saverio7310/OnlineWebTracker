@@ -4,12 +4,12 @@ import turtle
 import pandas as pd
 import seaborn as sns
 from matplotlib.patches import Circle
-from matplotlib.pyplot import figure, plot, scatter, show, text
+from matplotlib.pyplot import figure, plot, scatter, show, text, subplots, imread, hist2d
 
-with open("csv\\download.csv") as file:
+with open("csv/download.csv") as file:
 
     #read the csv file
-    reader_obj = csv.reader(file)
+    reader_obj = csv.reader(file) 
 
     #create a list to insert the data from the raw data
     list_data = list()
@@ -148,10 +148,13 @@ with open("csv\\download.csv") as file:
 
     #setting of the graph 
     
-    f = figure()
+    """ f = figure()
     f.set_figwidth(16)
-    f.set_figheight(9)
-    
+    f.set_figheight(9) """
+
+    img = imread("img/Griglia.png")
+    fig, ax = subplots()
+    ax.imshow(img, extent=[0, 2000, 1200, 0])
 
 
     #shows the fixation points
@@ -190,7 +193,15 @@ with open("csv\\download.csv") as file:
     #df.head()
 
     # Default heatmap
-    p1 = sns.heatmap(df)
+    img = imread("img/Griglia.png")
+    fig, ak = subplots()
+    ak.imshow(img)
+    list_y_vecchi = list()
+    for y in list_y:
+        list_y_vecchi.append(1200 - y)
+    hist2d(list_x, list_y_vecchi, bins=30, range=[[0, 2000], [0, 1200]], cmap="Greys")    #icefire, Greys
+    #p1 = sns.heatmap(df)
+    #sns.jointplot(x=list_x, y=list_y, kind="kde")
 
     #funziona ma è da migliorare
 
@@ -209,7 +220,7 @@ with open("csv\\download.csv") as file:
 
     '''
     
-    '''
+    
 
     max = 0
     min = 10000
@@ -245,8 +256,8 @@ with open("csv\\download.csv") as file:
     print("\n")
     print(list_distances[:10])
 
+    '''
+
+
     show()
     '''savefig('GazePoints.png')'''
-
-
-    
