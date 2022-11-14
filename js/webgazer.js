@@ -47,7 +47,7 @@ start = function() {
         start_record = true
     } else {
         start_record = false
-        let csvContent = "data:text/csv;charset=utf-8," + "\r\n" + "x,y,timestamp" + "\r\n"
+        let csvContent = "x,y,timestamp" + "\r\n"
         data_array.forEach((element) => {
             console.log(element)
             let row = element.x + "," + element.y + "," +element.time
@@ -55,9 +55,18 @@ start = function() {
         })
         data_array = []
 
+        var hiddenElement = document.createElement('a');  
+        hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvContent);  
+        hiddenElement.target = '_blank';  
+          
+        //provide the name for the CSV file to be downloaded  
+        hiddenElement.download = 'GazeData.csv';  
+        hiddenElement.click();  
+
+        /*
         var encodedUri = encodeURI(csvContent)
         window.open(encodedUri)
-        /*
+        
         var encodedUri = encodeURI(csvContent);
         var link = document.createElement("a");
         link.setAttribute("href", encodedUri);
