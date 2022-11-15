@@ -1,14 +1,14 @@
 .pauseButton {
-    position: absolute;
-    top: 850px;
+    position: relative;
+    bottom: 100px;
     left: 750px;
     font-size: large;
     width: 100px;
 }
 
 .resumeButton {
-    position: absolute;
-    top: 850px;
+    position: relative;
+    bottom: 100px;
     left: 1200px;
     font-size: large;
     width: 100px;
@@ -43,7 +43,7 @@
     height: 100%;
 }
 .center-fit {
-    max-width: 100%;
+    max-width: 90%;
     max-height: 100vh;
     margin: auto;
 }

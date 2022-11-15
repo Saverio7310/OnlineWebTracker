@@ -14,9 +14,16 @@ from matplotlib.pyplot import figure, plot, scatter, show, text, subplots, imrea
 #job to do
 data_source = ph.home() / 'Downloads' / 'GazeData.csv'
 data_destination = ph.home() / 'Desktop' / 'WebGazer' / 'csv'
+data_exists = data_destination / 'GazeData.csv'
 
-sh.move(data_source, data_destination, copy_function=sh.copy)
-
+'''
+if(ph.exists(data_exists)):
+    new_name = input("How would you like to rename the existing file? (WITH EXTENSION)")
+    ph.rename(data_exists, data_destination / new_name)
+    sh.move(data_source, data_destination, copy_function=sh.copy)
+else:
+    sh.move(data_source, data_destination, copy_function=sh.copy)
+'''
 
 #from now, the file with the data is open and it is possible to work with it. I used the 'with open'
 #because it closes by default the file. That's helpful in case you forget to call the function .close()
@@ -212,7 +219,7 @@ with open("csv/GazeData.csv") as file:
     ak.imshow(img)
     list_y_vecchi = list()
     for y in list_y:
-        list_y_vecchi.append(y)
+        list_y_vecchi.append(1200 - y)
     hist2d(list_x, list_y_vecchi, bins=30, range=[[0, 2000], [0, 1200]], cmap="Greys")    #icefire, Greys
     #p1 = sns.heatmap(df)
     #sns.jointplot(x=list_x, y=list_y, kind="kde")
