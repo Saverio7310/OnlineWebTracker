@@ -52,6 +52,23 @@ resume = function() {
     console.log("Resume")
 }
 
+var index_image = 0
+let img_array = ["Griglia.png", "text.png", "task.png", "dv1.png", "dv2.png", "dv3.png", "dv4.png"]
+
+previous = function() {
+    if (index_image > 0) {
+        index_image--
+        document.getElementById("img").src = "..\\img\\" + img_array[index_image]
+    }
+}
+
+next = function() {
+    if (index_image < 6) {
+        index_image++
+        document.getElementById("img").src = "..\\img\\" + img_array[index_image]
+    }
+}
+
 //used to start and stop the acquisition of the data. When you stop it, it will save in a csv file all the data gathered before and download it
 start = function() {
     if (start_record === false) {

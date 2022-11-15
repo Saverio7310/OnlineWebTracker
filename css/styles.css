@@ -1,26 +1,52 @@
 .pauseButton {
-    position: relative;
-    bottom: 100px;
-    left: 750px;
+    position: absolute;
+    bottom: 10%;
+    left: 37%;
     font-size: large;
     width: 100px;
 }
 
 .resumeButton {
-    position: relative;
-    bottom: 100px;
-    left: 1200px;
+    position: absolute;
+    bottom: 10%;
+    right: 37%;
+    font-size: large;
+    width: 100px;
+}
+
+.previousButton {
+    position: absolute;
+    bottom: 5%;
+    left: 37%;
+    font-size: large;
+    width: 100px;
+}
+
+.nextButton {
+    position: absolute;
+    bottom: 5%;
+    right: 37%;
     font-size: large;
     width: 100px;
 }
 
 .startButton {
     position: absolute;
-    top: 600px;
-    left: 975px;
+    bottom: 37%;
+    left: 47.5%;
     font-size: large;
-    width: 100px;
+    width: 200px;
 }
+
+.input {
+    position: absolute;
+    display: block;
+    bottom: 32%;
+    left: 47.5%;
+    font-size: large;
+    width: 200px;
+}
+
 
 /*.image {
     display: block;
