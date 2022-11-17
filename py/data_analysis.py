@@ -1,6 +1,6 @@
 import csv
 import math
-import turtle
+import sys
 import pandas as pd
 import seaborn as sns
 import shutil as sh
@@ -8,26 +8,45 @@ from pathlib import Path as ph
 from matplotlib.patches import Circle
 from matplotlib.pyplot import figure, plot, scatter, show, text, subplots, imread, hist2d
 
+# these few lines are used to select the right file to get from the download folder
+img_array = ["griglia", "text", "task", "dv1", "dv2", "dv3", "dv4"]
+
+z = list(zip(img_array, range(0, 7)))
+
+for e in z:
+    print(e[0] + " " + str(e[1]), sep="\n")
+
+image_index = int(input("Type the number of the file you want to open: "))
+
 # this part is used to move the download file from the browser into the csv folder of the project
 # from the download folder of the PC. The library used is the best for this task because it
 # automatically create the specific path based on the system used (Windows, MacOs), so less
 # job to do
-data_source = ph.home() / 'Downloads' / 'GazeData.csv'
+data_source = ph.home() / 'Downloads' / (img_array[image_index] + '.csv')
 data_destination = ph.home() / 'Desktop' / 'WebGazer' / 'csv'
-data_exists = data_destination / 'GazeData.csv'
+data_exists = data_destination / (img_array[image_index] + '.csv')
 
-'''
-if(ph.exists(data_exists)):
-    new_name = input("How would you like to rename the existing file? (WITH EXTENSION)")
-    ph.rename(data_exists, data_destination / new_name)
-    sh.move(data_source, data_destination, copy_function=sh.copy)
+# check whether the file is located in the download folder - to move it into csv folder - or if
+# it's in csv folder - just open the file
+location = input(
+    "Is your file in dowload or csv folder? (d for download, c for csv) ")
+
+if (location == "d"):
+    if (ph.exists(data_exists)):
+        new_name = input(
+            "How would you like to rename the existing file? (WITH EXTENSION) ")
+        ph.rename(data_exists, data_destination / new_name)
+        sh.move(data_source, data_destination, copy_function=sh.copy)
+    else:
+        sh.move(data_source, data_destination, copy_function=sh.copy)
+elif (location == "c"):
+    pass
 else:
-    sh.move(data_source, data_destination, copy_function=sh.copy)
-'''
+    sys.exit("Wrong input!")
 
 # from now, the file with the data is open and it is possible to work with it. I used the 'with open'
 # because it closes by default the file. That's helpful in case you forget to call the function .close()
-with open("csv/TestTesto.csv") as file:
+with open("csv/" + img_array[image_index] + ".csv") as file:
 
     # read the csv file
     reader_obj = csv.reader(file)
@@ -170,19 +189,20 @@ with open("csv/TestTesto.csv") as file:
     f.set_figwidth(16)
     f.set_figheight(9) """
 
-    img = imread("img/text.png")
+    img = imread("img/" + img_array[image_index] + ".png")
     fig, ax = subplots()
+    # per le prime due immagini va bene extent=[0, 2000, 1200, 0], ma per le infografiche no perché non sono in 16:9, sono in 4:3, penso sia per questo dato che se usato così l'immagine viene stretchata
     ax.imshow(img, extent=[0, 2000, 1200, 0])
 
     # shows the fixation points
     for center in list_fix_points:
-        scatter(center[0], center[1], s=500,
+        scatter(center[0], center[1], s=200,
                 facecolors='none', edgecolors='blue')
 
     # cycle used to enumerate all the circles
     i = 0
     for cir in list_fix_points:
-        text(cir[0], cir[1], str(i), color="red", fontsize=12)
+        text(cir[0], cir[1], str(i), color="red", fontsize=10)
         i = i+1
 
     # shows the saccades
@@ -191,7 +211,7 @@ with open("csv/TestTesto.csv") as file:
     for fix in list_fix_points:
         list_x.append(fix[0])
         list_y.append(fix[1])
-    plot(list_x, list_y)
+    plot(list_x, list_y, color="#9ACD32")
 
     # I want to create the heatmap
 
@@ -207,9 +227,10 @@ with open("csv/TestTesto.csv") as file:
     # df.head()
 
     # Default heatmap
-    img = imread("img/text.png")
+    img = imread("img/" + img_array[image_index] + ".png")
     fig, ak = subplots()
     ak.imshow(img)
+
     list_y_vecchi = list()
     for y in list_y:
         list_y_vecchi.append(1200 - y)
@@ -233,9 +254,6 @@ with open("csv/TestTesto.csv") as file:
     '''
 
     '''
-    
-    
-
     max = 0
     min = 10000
     avg = 0

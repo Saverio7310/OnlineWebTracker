@@ -1,29 +1,35 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <meta charset="utf-8">  <!-- -->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-        <title>Eye Tracking</title>
-        <!-- scripts to add to the HTML file. The first two import webgazer library and
+<head>
+    <meta charset="utf-8"> <!-- -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eye Tracking</title>
+    <!-- scripts to add to the HTML file. The first two import webgazer library and
             JavaScript file, the last import CSS file-->
-        <script src="https://webgazer.cs.brown.edu/webgazer.js?"> </script>
-        <script src="..\\js\\webgazer.js"> </script>
-        <link rel="stylesheet" href="..\\css\\styles.css"> </link>
-    </head>
+    <script src="https://webgazer.cs.brown.edu/webgazer.js?"> </script>
+    <script src="..\\js\\webgazer.js"> </script>
+    <link rel="stylesheet" href="..\\css\\styles.css">
+    </link>
+</head>
 
-    <body>
-        
-        <!-- these are the objects in the page -->
-        <div class="imgbox">
-            <img class="center-fit" src="..\\img\\Griglia.png" id="img">
+<body>
+
+    <!-- these are the objects in the page -->
+    <div class="imgbox">
+        <img class="center-fit" src="..\\img\\griglia.png" id="img">
+    </div>
+    <div class="div-ext">
+        <div class="div-int">
+            <button class="startButton" onclick="start()"> Start/Stop Record </button>
+            <img class="icons" src="..\\img\\pause.png" id="logo">
         </div>
-        <button class="startButton" onclick="start()"> Start/Stop Record </button>
-        <input class="input" type="text" id="textInput" placeholder="Insert file name and click 'Enter' to save file">
-        <button class="pauseButton" onclick="pause()"> Pause </button>
-        <button class="resumeButton" onclick="resume()"> Resume </button>
-        <button class="previousButton" onclick="previous()"> Previous </button>
-        <button class="nextButton" onclick="next()"> Next </button>
+    </div>
+    <button class="pauseButton" onclick="pause()"> Pause </button>
+    <button class="resumeButton" onclick="resume()"> Resume </button>
+    <button class="previousButton" onclick="previous()"> Previous </button>
+    <button class="nextButton" onclick="next()"> Next </button>
 
-    </body>
+</body>
+
 </html>

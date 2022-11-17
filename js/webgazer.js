@@ -56,74 +56,47 @@ resume = function () {
 }
 
 var index_image = 0
-let img_array = ["Griglia.png", "text.png", "task.png", "dv1.png", "dv2.png", "dv3.png", "dv4.png"]
+let img_array = ["griglia", "text", "task", "dv1", "dv2", "dv3", "dv4"]
 
 previous = function () {
     if (index_image > 0) {
         index_image--
-        document.getElementById("img").src = "..\\img\\" + img_array[index_image]
+        document.getElementById("img").src = "..\\img\\" + img_array[index_image] + ".png"
     }
 }
 
 next = function () {
     if (index_image < 6) {
         index_image++
-        document.getElementById("img").src = "..\\img\\" + img_array[index_image]
+        document.getElementById("img").src = "..\\img\\" + img_array[index_image] + ".png"
     }
 }
 
-//used to start and stop the acquisition of the data. 
+//used to start and stop the acquisition of the data. When it's stopped, the system will save in a csv file all the data gathered before and download it
 start = function () {
     start_record = !start_record
-}
 
-var file_name = ""
+    if (start_record)
+        document.getElementById("logo").src = "..\\img\\play.png"
+    else {
+        document.getElementById("logo").src = "..\\img\\pause.png"
 
-//When typing thename and clicking 'Enter', the system will save in a csv file all the data gathered before and download it
-window.onload = function () {
-    var input = document.getElementById("textInput")
+        let csvContent = "x,y,timestamp" + "\r\n"
+        data_array.forEach((element) => {
+            console.log(element)
+            let row = element.x + "," + element.y + "," + element.time
+            csvContent += row + "\r\n"
+        })
+        data_array = []
 
-    input.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
+        var hiddenElement = document.createElement('a');
+        hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvContent);
+        hiddenElement.target = '_blank';
 
-            file_name = document.getElementById('textInput').value + ".csv"
+        //provide the name for the CSV file to be downloaded  
+        hiddenElement.download = img_array[index_image] + ".csv";
+        hiddenElement.click();
 
-            let csvContent = "x,y,timestamp" + "\r\n"
-            data_array.forEach((element) => {
-                console.log(element)
-                let row = element.x + "," + element.y + "," + element.time
-                csvContent += row + "\r\n"
-            })
-            data_array = []
-
-            var hiddenElement = document.createElement('a');
-            hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvContent);
-            hiddenElement.target = '_blank';
-
-            //provide the name for the CSV file to be downloaded  
-            hiddenElement.download = file_name;
-            hiddenElement.click();
-
-            document.getElementById('textInput').value = ''
-
-            /*
-            var encodedUri = encodeURI(csvContent)
-            window.open(encodedUri)
-            
-            var encodedUri = encodeURI(csvContent);
-            var link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "dati.csv");
-            document.body.appendChild(link); 
-            link.click();
-            */
-        }
-    })
-}
-
-
-//used to get the name of the file csv
-getName = function (input) {
-
-    input.value = file_name.toUpperCase()
+        document.getElementById('textInput').value = ''
+    }
 }
