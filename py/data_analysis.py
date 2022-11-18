@@ -2,10 +2,8 @@ import csv
 import math
 import sys
 import pandas as pd
-import seaborn as sns
 import shutil as sh
 from pathlib import Path as ph
-from matplotlib.patches import Circle
 from matplotlib.pyplot import figure, plot, scatter, show, text, subplots, imread, hist2d
 
 # these few lines are used to select the right file to get from the download folder
@@ -192,7 +190,7 @@ with open("csv/" + img_array[image_index] + ".csv") as file:
     img = imread("img/" + img_array[image_index] + ".png")
     fig, ax = subplots()
     # per le prime due immagini va bene extent=[0, 2000, 1200, 0], ma per le infografiche no perché non sono in 16:9, sono in 4:3, penso sia per questo dato che se usato così l'immagine viene stretchata
-    ax.imshow(img, extent=[0, 2000, 1200, 0])
+    ax.imshow(img, extent=[0, 2000, 1400, 0])
 
     # shows the fixation points
     for center in list_fix_points:
