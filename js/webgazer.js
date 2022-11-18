@@ -5,6 +5,7 @@ window.saveDataAcrossSessions = false
 
 //this is used to tell the html page that there are a lot of data to read and that this process is fast. This will optimize the gathering of the data
 const canvas = document.createElement('canvas');
+//CanvasRenderingContext2D.willReadFrequently = true
 const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
 var start_record = false
@@ -29,7 +30,8 @@ webgazer.setGazeListener((data, timestamp) => {
         setTimeout(100)
     }
 
-}).begin()
+}).saveDataAcrossSessions(false)
+    .begin()
 
 /*
 webgazer.setGazeListener(function (data, elapsedTime) {
