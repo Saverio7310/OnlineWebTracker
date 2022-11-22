@@ -1,24 +1,14 @@
-/* WebGazer.js library */
-
 //with this you can save all data and when you reopen the tracker it will remember it
 window.saveDataAcrossSessions = false
-
-//this is used to tell the html page that there are a lot of data to read and that this process is fast. This will optimize the gathering of the data
-const canvas = document.createElement('canvas');
-//CanvasRenderingContext2D.willReadFrequently = true
-const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
 var start_record = false
 var i = 0
 var data_array = []
 
-webgazer.setRegression("ridge")
-
 webgazer.setGazeListener((data, timestamp) => {
 
     //elapsed time is based on time since begin was called
-    //setInterval(console.log(data, "timestamp is ", timestamp), 20)
-
+    
     //it saves the coordinates and the timestamps of the tracking dots until you press again the button "start record"
     if (start_record) {
         var data_obj = new Object()
@@ -32,18 +22,6 @@ webgazer.setGazeListener((data, timestamp) => {
 
 }).saveDataAcrossSessions(false)
     .begin()
-
-/*
-webgazer.setGazeListener(function (data, elapsedTime) {
-    if (data == null) {
-        return;
-    }
-    var xprediction = data.x; //these x coordinates are relative to the viewport
-    var yprediction = data.y; //these y coordinates are relative to the viewport
-    //console.log(elapsedTime); //elapsed time is based on time since begin was called
-}).begin();
-*/
-
 
 //it's used to stop the tracker
 pause = function () {
@@ -59,7 +37,7 @@ resume = function () {
 
 var index_image = 0
 let img_array = ["griglia", "text", "task", "dv1", "dv2", "dv3", "dv4"]
-
+//it's used to change the background image to the previous one
 previous = function () {
     if (index_image > 0) {
         index_image--
@@ -67,6 +45,7 @@ previous = function () {
     }
 }
 
+//it's used to change the background image to the next one
 next = function () {
     if (index_image < 6) {
         index_image++
