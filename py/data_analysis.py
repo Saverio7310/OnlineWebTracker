@@ -6,14 +6,17 @@ from pathlib import Path as ph
 from matplotlib.pyplot import figure, plot, scatter, show, text, subplots, imread, hist2d
 
 # these few lines are used to select the right file to get from the download folder by associating each name with a number
-img_array = ["griglia", "text", "task", "dv1", "dv2", "dv3", "dv4"]
+img_array = ["griglia", "text", "task", "info1", "info2"]
 
-z = list(zip(img_array, range(0, 7)))
+z = list(zip(img_array, range(0, 5)))
 
 for e in z:
     print(e[0] + " " + str(e[1]), sep="\n")
 
 image_index = int(input("Type the number of the file you want to open: "))
+
+if image_index not in [0, 1, 2, 3, 4]:
+    sys.exit("Wrong number!")
 
 # this part is used to move the file from the download folder of the PC into the csv folder 
 # of the project. The library used is the best for this task because it
@@ -160,8 +163,8 @@ with open("csv/" + img_array[image_index] + ".csv") as file:
     # setting of the graph
     img = imread("img/" + img_array[image_index] + ".png")
     fig, ax = subplots()
-    # per le prime due immagini va bene extent=[0, 2000, 1400, 0], ma per le infografiche no perché non sono in 16:9, sono in 4:3, penso sia per questo dato che se usato così l'immagine viene stretchata
-    ax.imshow(img, extent=[0, 2000, 1400, 0])
+    # per le prime due immagini va bene extent=[0, 2000, 1200, 0], ma per le infografiche no perché non sono in 16:9, sono in 4:3, penso sia per questo dato che se usato così l'immagine viene stretchata
+    ax.imshow(img, extent=[0, 2000, 1200, 0])
 
     # shows the fixation points
     for center in list_fix_points:
@@ -190,9 +193,9 @@ with open("csv/" + img_array[image_index] + ".csv") as file:
 
     list_y_vecchi = list()
     for y in list_y:
-        list_y_vecchi.append(1400 - y)
+        list_y_vecchi.append(1200 - y)
     hist2d(list_x, list_y_vecchi, bins=30, range=[
-           [0, 2000], [0, 1400]], cmap="Greys")  # icefire, Greys
+           [0, 2000], [0, 1200]], cmap="Greys")  # icefire, Greys
     
 
     # funziona ma è da migliorare

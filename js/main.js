@@ -20,8 +20,10 @@ webgazer.setGazeListener((data, timestamp) => {
         setTimeout(100)
     }
 
-}).saveDataAcrossSessions(false)
-    .begin()
+})
+.saveDataAcrossSessions(false)
+.setRegression("ridge")
+.begin()
 
 //it's used to stop the tracker
 pause = function () {
@@ -36,7 +38,7 @@ resume = function () {
 }
 
 var index_image = 0
-let img_array = ["griglia", "text", "task", "dv1", "dv2", "dv3", "dv4"]
+let img_array = ["griglia", "text", "task", "info1", "info2"]
 //it's used to change the background image to the previous one
 previous = function () {
     if (index_image > 0) {
@@ -47,7 +49,7 @@ previous = function () {
 
 //it's used to change the background image to the next one
 next = function () {
-    if (index_image < 6) {
+    if (index_image < 4) {
         index_image++
         document.getElementById("img").src = "..\\img\\" + img_array[index_image] + ".png"
     }
@@ -77,7 +79,5 @@ start = function () {
         //provide the name for the CSV file to be downloaded  
         hiddenElement.download = img_array[index_image] + ".csv";
         hiddenElement.click();
-
-        document.getElementById('textInput').value = ''
     }
 }
