@@ -3,7 +3,7 @@ import math
 import sys
 import shutil as sh
 from pathlib import Path as ph
-from matplotlib.pyplot import figure, plot, scatter, show, text, subplots, imread, hist2d
+from matplotlib.pyplot import plot, scatter, show, text, subplots, imread, hist2d
 
 # these few lines are used to select the right file to get from the download folder by associating each name with a number
 img_array = ["griglia", "text", "task", "info1", "info2"]
@@ -18,7 +18,7 @@ image_index = int(input("Type the number of the file you want to open: "))
 if image_index not in [0, 1, 2, 3, 4]:
     sys.exit("Wrong number!")
 
-# this part is used to move the file from the download folder of the PC into the csv folder 
+# this part is used to move the file from the download folder of the PC into the csv folder
 # of the project. The library used is the best for this task because it
 # automatically create the specific path based on the system used (Windows, MacOs)
 data_source = ph.home() / 'Downloads' / (img_array[image_index] + '.csv')
@@ -66,8 +66,8 @@ with open("csv/" + img_array[image_index] + ".csv") as file:
     for [a, b, c] in list_data:
         list_circles.append([float(a), (float(b)), float(c)])
 
-    # it's used to create a list that contains the distance, the time difference between of each pair
-    #  of points and True if the distance is less than DMAX or False otherwise. DMAX is the maximum 
+    # it's used to create a list that contains the distance, the time difference between each pair
+    # of points and True if the distance is less than DMAX or False otherwise. DMAX is the maximum
     # space distance between two points to consider them a fixation; TMAX is the maximum time
     #list_distances = [(float, float, bool), (float, ...), ...]
     list_distances = list()
@@ -81,7 +81,7 @@ with open("csv/" + img_array[image_index] + ".csv") as file:
         time_difference = list_circles[i+1][2]-list_circles[i][2]
         list_distances.append(
             (round(square, 2), round(time_difference, 2), square < DMAX))
-        i = i+1
+        i = i + 1
 
     # this part is used to find the indexes of the final fixation points
     list_fix_temp = list()
@@ -89,30 +89,23 @@ with open("csv/" + img_array[image_index] + ".csv") as file:
     sum_t = list_distances[0][1]
     while i + 1 < len(list_distances):
 
-        # each consecutive point sampled within 80ms that is going to be assimilated in one 
-        # fixation point besides their relative distance (even if grater than DMAX) because
-        # sampling rate is about 40ms, so 
-        # la distanza temporale di campionamento è intorno ai 40 ms, quindi nel caso in cui
-        # siano di per sé troppo lontani Prendiamo i tre punti successivi e li includiamo
-        # in un unico Fixation point dato che la distanza temporale di questi tre punti si
-        # aggira intorno agli 80 ms più o meno qualche millisecondo.la distanza spaziale
-        # in questo caso non ci interessa
+        # the minimum time to have a fixation point is 80ms. Since the difference between
+        # each point is more or less 40ms, we aggregate 3 consecutive gaze points even if
+        # they are too far away. We do this because even if their distance is bigger than the
+        # minimum, the time of sampling was too short to consider them distinct fixation points
         if not list_distances[i][2] and i + 3 < len(list_distances):
-            # aggrego i tre punti e non passo l'iterazione successiva ma tre successive perché
-            # i punti di mezzo li ho già inseriti in un Fixation
+            # after joining 3 gaze points we update the index by 3 because we need to move on
+            # and work with the right points
             list_fix_temp.append((i, i+1, i+2))
             sum_t = list_distances[i+3][1]
-            #print("primo if, t e i sono " + str(i) + ", " + str(i+1) + ", " + str(i+2) + ", "+ str(i+3))
-            i = i+3
+            i = i + 3
 
         else:
-            # Negli altri casi invece prendo il primo punto a disposizione e lo utilizzo
-            # come possibile Fixation point. Vado quindi a determinare la distanza tra questo
-            # punto e tutti i successivi fino a quando o la distanza degll'iesimo punto è
-            # maggiore di DMAX, Oppure il tempo di campionamento ha superato i 400 ms.
-            # Successivamente per ogni Fixation point andrò a calcolare la media di tutti
-            # i punti andando a trovare il punto medio e utilizzando quello come Fixation finale
- 
+            # if the points are close enough, we take the first available and calculate the
+            # distance between itself and all consecutive gaze points until the relative
+            # distance is greater than DMAX or the sum of timestamps i greater than TMAX.
+            # Later we are going to create a unique fixation point for each group of gaze
+            # points found here by calculating the middle point.
             j = i
             while i + 1 < len(list_distances):
 
@@ -124,11 +117,9 @@ with open("csv/" + img_array[image_index] + ".csv") as file:
                 if square < DMAX and time_difference <= TMAX:
 
                     list_fix_temp.append((j, i+1))
-                    #print("while, t e i sono " + str(j) + ", " + str(i+1) + ", " + str(i+1))
                     i = i + 1
 
                 else:
-                    #print("sono nel while + else")
                     i = i + 1
                     break
 
@@ -148,8 +139,9 @@ with open("csv/" + img_array[image_index] + ".csv") as file:
         else:
             i = i+1
 
-    # eventually, with this part, for every set (that represents the points that should be considered
-    # as the same fixation point), it's calculated the medium point to create the final fixation point
+    # eventually, for every set (that represents the points that should be considered
+    # as the same fixation point), it's calculated the medium point to create the
+    # real fixation point
     list_fix_points = list()
     for fix_set in list_fix:
         list_x = list()
@@ -160,24 +152,23 @@ with open("csv/" + img_array[image_index] + ".csv") as file:
         t = (sum(list_x)/len(list_x), sum(list_y)/len(list_y))
         list_fix_points.append(t)
 
-    # setting of the graph
+    # setting of the graph with background image and the dimension of the axes
     img = imread("img/" + img_array[image_index] + ".png")
     fig, ax = subplots()
-    # per le prime due immagini va bene extent=[0, 2000, 1200, 0], ma per le infografiche no perché non sono in 16:9, sono in 4:3, penso sia per questo dato che se usato così l'immagine viene stretchata
     ax.imshow(img, extent=[0, 2000, 1200, 0])
 
-    # shows the fixation points
+    # shows each fixation point as a blue empty circle
     for center in list_fix_points:
         scatter(center[0], center[1], s=200,
                 facecolors='none', edgecolors='blue')
 
-    # cycle used to enumerate all the circles
+    # enumerate every fixation point from 0 to len(list_fix_points)
     i = 0
     for cir in list_fix_points:
         text(cir[0], cir[1], str(i), color="red", fontsize=10)
         i = i+1
 
-    # shows the saccades
+    # shows the saccades by plotting the distances between each consecutive fixation point
     list_x = list()
     list_y = list()
     for fix in list_fix_points:
@@ -185,19 +176,19 @@ with open("csv/" + img_array[image_index] + ".csv") as file:
         list_y.append(fix[1])
     plot(list_x, list_y, color="#9ACD32")
 
-    # I want to create the heatmap
-    # Default heatmap
-    img = imread("img/" + img_array[image_index] + ".png")
+    # setting the graph for the heatmap. Unfortunatly i couldn't find a way to set the
+    # background image
     fig, ak = subplots()
     ak.imshow(img)
 
+    # create the heatmap. The difference (1200 - y) is used because the coordinate (0, 0)
+    # is in the top-left corner for the data gathered in the csv file while for this type
+    # of graph it is located in the bottom-left corner.
     list_y_vecchi = list()
     for y in list_y:
         list_y_vecchi.append(1200 - y)
     hist2d(list_x, list_y_vecchi, bins=30, range=[
-           [0, 2000], [0, 1200]], cmap="Greys")  # icefire, Greys
-    
+           [0, 2000], [0, 1200]], cmap="Greys")
 
-    # funziona ma è da migliorare
-
+    # this call is used to show each graph created before.
     show()

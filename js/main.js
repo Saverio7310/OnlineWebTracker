@@ -1,4 +1,5 @@
-//with this you can save all data and when you reopen the tracker it will remember it
+// with this you can delate the previous calibration so that when you reopen
+// the tracker it will not remember it
 window.saveDataAcrossSessions = false
 
 var start_record = false
@@ -6,10 +7,8 @@ var i = 0
 var data_array = []
 
 webgazer.setGazeListener((data, timestamp) => {
-
-    //elapsed time is based on time since begin was called
-    
-    //it saves the coordinates and the timestamps of the tracking dots until you press again the button "start record"
+    //it saves the coordinates and the timestamps of the tracking dots until you press 
+    //again the button "start record"
     if (start_record) {
         var data_obj = new Object()
         data_obj.x = data.x
@@ -19,11 +18,10 @@ webgazer.setGazeListener((data, timestamp) => {
         i++
         setTimeout(100)
     }
-
 })
-.saveDataAcrossSessions(false)
-.setRegression("ridge")
-.begin()
+    .saveDataAcrossSessions(false)
+    .setRegression("ridge")
+    .begin()
 
 //it's used to stop the tracker
 pause = function () {
@@ -55,7 +53,8 @@ next = function () {
     }
 }
 
-//used to start and stop the acquisition of the data. When it's stopped, the system will save in a csv file all the data gathered before and download it
+//used to start and stop the acquisition of the data. When it's stopped, the system will 
+//save in a csv file all the data gathered before and download it
 start = function () {
     start_record = !start_record
 
